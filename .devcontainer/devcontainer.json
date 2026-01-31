@@ -1,0 +1,38 @@
+{
+    "name": "fasdet-dev-env",
+    "build": {
+      "dockerfile": "../docker/Dockerfile",
+      "context": ".",
+      "args": {
+        "USERNAME": "${localEnv:USER}"
+      }
+    },
+  
+    "remoteUser": "serene",
+    "updateRemoteUserUID": true,
+  
+    "runArgs": [
+      "--privileged",
+      "--name", "fasdet-dev-env",
+      "--net", "host",
+      "--gpus", "all",
+      "--shm-size=16g",
+      "-e", "PYTHONUNBUFFERED=1",
+      "-e", "DISPLAY=:0",
+      "-v", "/tmp/.X11-unix:/tmp/.X11-unix:rw",
+      "-v", "/dev:/dev"
+    ],
+  
+    "postCreateCommand": "pip install -r requirements.txt",
+  
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-python.python",
+          "ms-toolsai.jupyter",
+          "ms-python.autopep8"
+        ]
+      }
+    }
+  }
+    
